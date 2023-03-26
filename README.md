@@ -1,6 +1,6 @@
 # auto_racer
 
-Automatically enter races every 5 minutes
+Automatically enter races every 5 minutes. I made this because I was salty I couldn't get Top 10, might as well try to do something absurd.
 
 ## Usage
 
@@ -40,3 +40,5 @@ python main.py
 ## Screenshot
 
 ![image](https://user-images.githubusercontent.com/20278298/227785442-52283138-e075-42bc-bb3f-38d9421ec460.png)
+
+![image](https://user-images.githubusercontent.com/20278298/227786185-c30668d6-3a4b-4145-a60e-fb629f9000cd.png)
