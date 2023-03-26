@@ -1,0 +1,7 @@
+__pycache__
+venv
+credentials.example.json
+README.md
+Dockerfile
+.dockerignore
+.gitignore
