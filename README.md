@@ -28,3 +28,6 @@ python main.py
 
 2. Is this illegal
 - Dunno, probably not
+
+## Screenshot
+![image](https://user-images.githubusercontent.com/20278298/227785442-52283138-e075-42bc-bb3f-38d9421ec460.png)
