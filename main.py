@@ -21,7 +21,7 @@ def time_format(time):
 
 
 def cognito_login(username, password):
-    print(f'[{datetime.datetime.now()}] {username} > Attempting to log in...')
+    print(f'[{datetime.datetime.now()}] {username[:16]} > Attempting to log in...')
     aws = AWSSRP(
         pool_id='us-east-1_UoORhSEJc',
         username=username,
@@ -85,17 +85,17 @@ def submit(p, model_arn, leaderboard_arn):
         headers={
             'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/111.0",
             'Content-Type': 'text/plain;charset=UTF-8',
-            'authorization': f'Bearer {tokens[p["username"]]["token"]}',
+            'authorization': f'Bearer {tokens[p["username"][:16]]["token"]}',
             'Content-Length': len(encoded_data)
         }
     )
     try:
         request.urlopen(req)
         print(
-            f'[{datetime.datetime.now()}] {p["username"]} > Successfully started race!'
+            f'[{datetime.datetime.now()}] {p["username"][:16]} > Successfully started race!'
         )
     except HTTPError as e:
-        print(f'[{datetime.datetime.now()}] {p["username"]} > {str(e)}')
+        print(f'[{datetime.datetime.now()}] {p["username"][:16]} > {str(e)}')
 
 
 def start_race(scheduler):
@@ -106,17 +106,17 @@ def start_race(scheduler):
     profiles = json.load(f)
     f.close()
 
-    scheduler.enter(60 * 3, 1, start_race, (scheduler,))
+    scheduler.enter(60 * 5, 1, start_race, (scheduler,))
 
     for p in profiles:
-        if (p['username'] not in tokens) or (int(round(time.time())) >= tokens[p['username']]['expiry']):
+        if (p['username'] not in tokens) or ((int(round(time.time())) + 60) >= tokens[p['username']]['expiry']):
             try:
                 tokens[p['username']] = cognito_login(
                     p['username'], p['password']
                 )
             except Exception as e:
                 print(
-                    f'[{datetime.datetime.now()}] {p["username"]} > {str(e)}'
+                    f'[{datetime.datetime.now()}] {p["username"][:16]} > {str(e)}'
                 )
                 continue
 
@@ -144,17 +144,17 @@ def start_race(scheduler):
             total_time = time_format(latest_submission['TotalLapTime'])
 
             print(
-                f'[{datetime.datetime.now()}] {p["username"]} > Previous submission is done.\n' +
-                f'[{datetime.datetime.now()}] {p["username"]} > Results: {model_name} -> {total_time}. Best: {ranked_model_name} -> {ranked_total_time}.'
+                f'[{datetime.datetime.now()}] {p["username"][:16]} > Previous submission is done.\n' +
+                f'[{datetime.datetime.now()}] {p["username"][:16]} > Results: {model_name} -> {total_time}. Best: {ranked_model_name} -> {ranked_total_time}.'
             )
             submit(p, model_arn, leaderboard_arn)
         elif latest_status == 'QUEUED' or latest_status == 'RUNNING':
             print(
-                f'[{datetime.datetime.now()}] {p["username"]} > Previous submission is still ongoing, skipping for now.'
+                f'[{datetime.datetime.now()}] {p["username"][:16]} > Previous submission is still ongoing, skipping for now.'
             )
         else:
             print(
-                f'[{datetime.datetime.now()}] {p["username"]} > Something happened to the previous submission, not successful, queued or running.'
+                f'[{datetime.datetime.now()}] {p["username"][:16]} > Something happened to the previous submission, not successful, queued or running.'
             )
 
 
