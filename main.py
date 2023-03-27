@@ -85,7 +85,7 @@ def submit(p, model_arn, leaderboard_arn):
         headers={
             'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/111.0",
             'Content-Type': 'text/plain;charset=UTF-8',
-            'authorization': f'Bearer {tokens[p["username"][:16]]["token"]}',
+            'authorization': f'Bearer {tokens[p["username"]]["token"]}',
             'Content-Length': len(encoded_data)
         }
     )
